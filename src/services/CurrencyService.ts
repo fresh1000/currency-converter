@@ -3,14 +3,14 @@ import * as dayjs from "dayjs"
 import ExchangeratesApiService from "./ExchangeratesApiService"
 
 class CurrencyService {
-  async getLatestCurrency(currency: string): Promise<string> {
+  
+  async getCurrency(currency: string, date: string = dayjs().format('YYYY-MM-DD')): Promise<ICurrency> {
     try {
-      const date: string = dayjs().format('YYYY-MM-DD')
       currency = currency.toUpperCase()
       const currencyMongo: ICurrency = await Currency.findOne({ currency, date })
       if (!currencyMongo) {
         const apiService = new ExchangeratesApiService()
-        const currencyData = await apiService.getCurrencies(currency)
+        const currencyData = await apiService.getCurrencies(currency, date)
 
         const currencySaveData = {
           currency,
@@ -21,12 +21,12 @@ class CurrencyService {
         const saveCurrency = new Currency(currencySaveData)
         const savedCurrency = await saveCurrency.save()
 
-        return savedCurrency.value
+        return savedCurrency
       }
-      return currencyMongo.value
+      return currencyMongo
     } catch (err) {
       console.log(err)
-      return ''
+      return {} as ICurrency
     }
   }
 }
