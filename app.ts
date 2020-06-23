@@ -9,10 +9,9 @@ if (process.env.DOTENV) {
     .forEach((envPath) => dotenv.config({ path: envPath }))
 }
 
-const port = 3000
+const port = process.env.PORT || 4000
 
 const db = process.env.MONGO_URL
-console.log(process.env.MONGO_URL)
 connect(db)
 
 app.listen(port)

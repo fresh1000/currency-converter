@@ -12,8 +12,9 @@ class CurrencyController {
 
     try {
       const currencyService = new CurrencyService()
-      const result: ICurrency = await currencyService.getCurrency(req.params.currency, req.params.date)
-      let total = parseFloat(req.query.amount.toString()) / parseFloat(result.value)
+      const result: ICurrency = await currencyService
+        .getCurrency(req.params.currency, req.params.date)
+      const total = parseFloat(req.query.amount.toString()) / parseFloat(result.value)
       return res.status(200).send({ total })
     } catch (err) {
       return res.status(500).send(err)

@@ -1,12 +1,11 @@
-import Currency, { ICurrency } from "../models/Currency"
-import * as dayjs from "dayjs"
-import ExchangeratesApiService from "./ExchangeratesApiService"
+import * as dayjs from 'dayjs'
+import Currency, { ICurrency } from '../models/Currency'
+import ExchangeratesApiService from './ExchangeratesApiService'
 
 class CurrencyService {
-  
-  async getCurrency(currency: string, date: string = dayjs().format('YYYY-MM-DD')): Promise<ICurrency> {
+  async getCurrency(currencyParam: string, date: string = dayjs().format('YYYY-MM-DD')): Promise<ICurrency> {
     try {
-      currency = currency.toUpperCase()
+      const currency = currencyParam.toUpperCase()
       const currencyMongo: ICurrency = await Currency.findOne({ currency, date })
       if (!currencyMongo) {
         const apiService = new ExchangeratesApiService()
@@ -15,7 +14,7 @@ class CurrencyService {
         const currencySaveData = {
           currency,
           date,
-          value: currencyData.rates[currency]
+          value: currencyData.rates[currency],
         } as ICurrency
 
         const saveCurrency = new Currency(currencySaveData)

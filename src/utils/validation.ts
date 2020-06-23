@@ -9,11 +9,11 @@ const validateCurrencyHistory = [
   param('currency').isIn(['usd', 'eur']),
   query('amount').isFloat({ gt: 0 }),
   param('date').custom((value) => {
-    if(!dayjs(value).isValid()) {
+    if (!dayjs(value).isValid()) {
       throw new Error('Invalid date')
     }
 
-    if (!dayjs(value, 'YYYY-MM-DD').isValid())  {
+    if (!dayjs(value, 'YYYY-MM-DD').isValid()) {
       throw new Error('Invalid date format')
     }
 
@@ -25,7 +25,7 @@ const validateCurrencyHistory = [
       throw new Error('Date must be before current date or current date')
     }
     return true
-  })
+  }),
 ]
 
 export {
